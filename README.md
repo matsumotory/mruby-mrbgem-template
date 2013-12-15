@@ -13,7 +13,7 @@ end
 ```
 ## example 
 
-- input
+- input create.rb
 
 ```ruby
 params = {
@@ -29,7 +29,7 @@ c = MrbgemTemplate.new params
 c.create
 ```
 
-- output
+- output mrbgem template
 
 ```
 $ ./bin/mruby create.rb
