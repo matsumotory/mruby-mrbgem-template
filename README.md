@@ -33,31 +33,35 @@ c.create
 
 ```
 $ ./bin/mruby create.rb
-mkdir: ./mruby-sample/src
-create file: ./mruby-sample/src/mrb_sample.c
-create file: ./mruby-sample/src/mrb_sample.h
-mkdir: ./mruby-sample/mrblib
-create file: ./mruby-sample/mrblib/mrb_sample.rb
-create file: ./mruby-sample/mrbgem.rake
-mkdir ./mruby-sample/test
-create file: ./mruby-sample/test/mrb_sample.rb
-create file: ./mruby-sample/.travis.yml
-create file: ./mruby-sample/.travis_build_config.rb
-create file: ./mruby-sample/README.md
-create file: ./mruby-sample/LICENSE
+Generate all files of mruby-sample
+create dir : ../mruby-sample
+create dir : ../mruby-sample/src
+create file: ../mruby-sample/src/mrb_sample.c
+create file: ../mruby-sample/src/mrb_sample.h
+create dir : ../mruby-sample/mrblib
+create file: ../mruby-sample/mrblib/mrb_sample.rb
+create dir : ../mruby-sample/test
+create file: ../mruby-sample/test/mrb_sample.rb
+create file: ../mruby-sample/mrbgem.rake
+create file: ../mruby-sample/mruby-sample.gem
+create file: ../mruby-sample/.travis.yml
+create file: ../mruby-sample/.travis_build_config.rb
+create file: ../mruby-sample/README.md
+create file: ../mruby-sample/LICENSE
 
   > create matsumoto-r/mruby-sample repository on github.
   > turn on Travis CI https://travis-ci.org/profile of matsumoto-r/mruby-sample repository.
-  > edit your mruby-sample code, then run below commands.
+  > edit your mruby-sample code, then run the following command:
 
-  cd ./mruby-sample
+  cd ../mruby-sample
   git init
   git add .
   git commit -m "first commit"
   git remote add origin git@github.com:matsumoto-r/mruby-sample.git
   git push -u origin master
+  
+  > finally, pull-request mruby-sample.gem to mgem-list https://github.com/bovi/mgem-list
 
-  >> enjoy!!
 ```
 
 - all methods
@@ -89,6 +93,9 @@ c.create
 # Create mrbgem.rake
 #c.create_rake
 
+# Create gem file
+#c.create_mgem
+
 # Create test dir and .rb
 #c.create_test
 
@@ -109,11 +116,24 @@ c.create
 #puts c.src_c_data
 #puts c.src_h_data
 #puts c.rake_data
+#puts c.mgem_data
 #puts c.test_data
 #puts c.travis_ci_data
 #puts c.travis_build_config_data
 #puts c.readme_data
 #puts c.license_data
+
+# Set data
+#c.mrblib_data = "hogehoge"
+・
+・
+・
+
+# Get init data
+#puts c.mrblib_data_init
+・
+・
+・
 ```
 
 
