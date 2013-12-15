@@ -130,7 +130,7 @@ c.create
 #.
 
 # Get init data
-#puts c.mrblib_data_init
+#c.mrblib_data = c.mrblib_data_init
 #.
 #.
 #.
