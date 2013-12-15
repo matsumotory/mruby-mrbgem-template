@@ -168,6 +168,8 @@ class MrbgemTemplate
   git remote add origin git@github.com:#{@params[:github_user]}/#{@params[:mrbgem_name]}.git
   git push -u origin master
 
+  > finally, pull-request #{@params[:mrbgem_name]}.gem to mgem-list https://github.com/bovi/mgem-list
+
 DATA
   end
 

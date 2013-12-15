@@ -20,7 +20,7 @@ params = {
   :mrbgem_name    => 'mruby-sample',
   :license        => 'MIT',
   :github_user    => 'matsumoto-r',
-  :mrbgem_prefix  => './',
+  :mrbgem_prefix  => '..',
   :class_name     => 'Sample',
   :author         => 'MATSUMOTO Ryosuke',
 }
@@ -125,15 +125,16 @@ c.create
 
 # Set data
 #c.mrblib_data = "hogehoge"
-・
-・
-・
+#.
+#.
+#.
 
 # Get init data
 #puts c.mrblib_data_init
-・
-・
-・
+#.
+#.
+#.
+
 ```
 
 

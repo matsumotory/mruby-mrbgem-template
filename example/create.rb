@@ -2,7 +2,7 @@ params = {
   :mrbgem_name    => 'mruby-sample',
   :license        => 'MIT',
   :github_user    => 'matsumoto-r',
-  :mrbgem_prefix  => '.',
+  :mrbgem_prefix  => '..',
   :class_name     => 'Sample',
   :author         => 'MATSUMOTO Ryosuke',
 }
@@ -29,6 +29,9 @@ c.create
 # Create mrbgem.rake
 #c.create_rake
 
+# Create .gem
+#c.create_mgem
+
 # Create test dir and .rb
 #c.create_test
 
@@ -49,9 +52,21 @@ c.create
 #puts c.src_c_data
 #puts c.src_h_data
 #puts c.rake_data
+#puts c.mgem_data
 #puts c.test_data
 #puts c.travis_ci_data
 #puts c.travis_build_config_data
 #puts c.readme_data
 #puts c.license_data
 
+# Set data
+#c.mrblib_data = "hogehoge"
+#.
+#.
+#.
+
+# Get init data
+#c.mrblib_data = c.mrblib_data_init
+#.
+#.
+#.
