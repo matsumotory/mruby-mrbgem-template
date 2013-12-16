@@ -71,7 +71,7 @@ params = {
   :mrbgem_name    => 'mruby-sample',
   :license        => 'MIT',
   :github_user    => 'matsumoto-r',
-  :mrbgem_prefix  => '.',
+  :mrbgem_prefix  => '/usr/local/mrbgems',
   :class_name     => 'Sample',
   :author         => 'MATSUMOTO Ryosuke',
 }
