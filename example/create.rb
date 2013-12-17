@@ -12,7 +12,6 @@ c = MrbgemTemplate.new params
 # Create all data
 c.create
 
-
 #
 # Other methods
 #
