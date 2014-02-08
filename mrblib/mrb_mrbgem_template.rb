@@ -230,7 +230,7 @@ before_script:
   - cd mruby
   - cp -fp ../#{@params[:mrbgem_name]}/.travis_build_config.rb build_config.rb
 script: 
-  - rake all test
+  - make all test
 DATA
   end
 
