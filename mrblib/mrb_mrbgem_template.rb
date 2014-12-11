@@ -31,7 +31,7 @@ class MrbgemTemplate
     @src_dir    = @root_dir + "/src"
     @mrblib_dir = @root_dir + "/mrblib"
     @test_dir   = @root_dir + "/test"
-    
+
     @src_c_data = src_c_data_init
     @src_h_data = src_h_data_init
     @mrblib_data = mrblib_data_init
@@ -44,7 +44,7 @@ class MrbgemTemplate
     @mgem_data = mgem_data_init
   end
 
-  def create 
+  def create
     puts "Generate all files of #{@params[:mrbgem_name]}"
     create_root
     create_src
@@ -160,7 +160,7 @@ class MrbgemTemplate
   > create #{@params[:github_user]}/#{@params[:mrbgem_name]} repository on github.
   > turn on Travis CI https://travis-ci.org/profile of #{@params[:github_user]}/#{@params[:mrbgem_name]} repository.
   > edit your #{@params[:mrbgem_name]} code, then run the following command:
-  
+
   cd #{@root_dir}
   git init
   git add .
@@ -194,7 +194,7 @@ DATA
 
   def test_data_init
     <<DATA
-##  
+##
 ## #{@params[:class_name]} Test
 ##
 
@@ -229,7 +229,7 @@ before_script:
   - git clone https://github.com/mruby/mruby.git
   - cd mruby
   - cp -fp ../#{@params[:mrbgem_name]}/.travis_build_config.rb build_config.rb
-script: 
+script:
   - make all test
 DATA
   end
@@ -248,18 +248,18 @@ DATA
     <<DATA
 # #{@params[:mrbgem_name]}   [![Build Status](https://travis-ci.org/#{@params[:github_user]}/#{@params[:mrbgem_name]}.png?branch=master)](https://travis-ci.org/#{@params[:github_user]}/#{@params[:mrbgem_name]})
 #{@params[:class_name]} class
-## install by mrbgems 
-- add conf.gem line to `build_config.rb` 
+## install by mrbgems
+- add conf.gem line to `build_config.rb`
 
 ```ruby
 MRuby::Build.new do |conf|
 
     # ... (snip) ...
 
-    conf.gem :git => 'https://github.com/#{@params[:github_user]}/#{@params[:mrbgem_name]}.git'
+    conf.gem :github => '#{@params[:github_user]}/#{@params[:mrbgem_name]}'
 end
 ```
-## example 
+## example
 ```ruby
 p #{@params[:class_name]}.hi
 #=> "hi!!"
@@ -307,14 +307,14 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 DATA
     else
-      "write license information here." 
+      "write license information here."
     end
   end
 
   def src_h_data_init
     <<DATA
 /*
-** mrb_#{@params[:class_name].downcase}.h - #{@params[:class_name]} class 
+** mrb_#{@params[:class_name].downcase}.h - #{@params[:class_name]} class
 **
 ** See Copyright Notice in LICENSE
 */
