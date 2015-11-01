@@ -240,6 +240,7 @@ MRuby::Build.new do |conf|
   toolchain :gcc
   conf.gembox 'default'
   conf.gem '../#{@params[:mrbgem_name]}'
+  conf.enable_test
 end
 DATA
   end
