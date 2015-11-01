@@ -4,5 +4,4 @@ MRuby::Build.new do |conf|
   conf.gem :git => 'https://github.com/iij/mruby-io.git'
   conf.gem :git => 'https://github.com/iij/mruby-dir.git'
   conf.gem '../mruby-mrbgem-template'
-  conf.enable_test
 end
