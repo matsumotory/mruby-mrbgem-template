@@ -1,6 +1,36 @@
 # mruby-mrbgem-template 
 MrbgemTemplate class
 
+## Quick Create Template
+
+- edit `template_config.rb`
+
+```ruby
+params = {
+  :mrbgem_name    => 'mruby-example',
+  :license        => 'MIT',
+  :github_user    => 'your-github-username',
+  :mrbgem_prefix  => File.expand_path('.'),
+  :class_name     => 'Example',
+  :author         => 'your-name',
+}
+
+c = MrbgemTemplate.new params
+c.create
+```
+
+- run `rake`
+
+```
+rake
+```
+
+- created template files
+
+```
+ls -l mruby-example
+```
+
 ## install by mrbgems 
 - add conf.gem line to `build_config.rb` 
 
