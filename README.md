@@ -3,6 +3,10 @@ MrbgemTemplate class
 
 ## Quick Create Template
 
+```
+git clone https://github.com/matsumoto-r/mruby-mrbgem-template.git && cd mruby-mrbgem-template/
+```
+
 - edit `template_config.rb`
 
 ```ruby
@@ -28,7 +32,7 @@ rake
 - created template files
 
 ```
-ls -l mruby-example
+ls -l ./mruby-example
 ```
 
 ## install by mrbgems 
