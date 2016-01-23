@@ -247,7 +247,7 @@ DATA
 
   def readme_data_init
     <<DATA
-# #{@params[:mrbgem_name]}   [![Build Status](https://travis-ci.org/#{@params[:github_user]}/#{@params[:mrbgem_name]}.png?branch=master)](https://travis-ci.org/#{@params[:github_user]}/#{@params[:mrbgem_name]})
+# #{@params[:mrbgem_name]}   [![Build Status](https://travis-ci.org/#{@params[:github_user]}/#{@params[:mrbgem_name]}.svg?branch=master)](https://travis-ci.org/#{@params[:github_user]}/#{@params[:mrbgem_name]})
 #{@params[:class_name]} class
 ## install by mrbgems
 - add conf.gem line to `build_config.rb`
