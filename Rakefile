@@ -1,4 +1,4 @@
-MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "build_config.rb")
+ENV["MRUBY_CONFIG"]=File.expand_path(ENV["MRUBY_CONFIG"] || "build_config.rb")
 TEMPLATE_CONFIG=File.expand_path(ENV["TEMPLATE_CONFIG"] || "template_config.rb")
 MRUBY_VERSION=ENV["MRUBY_VERSION"] || "1.1.0"
 
@@ -12,13 +12,13 @@ end
 
 desc "compile binary"
 task :compile => :mruby do
-  sh "cd mruby && MRUBY_CONFIG=\"#{MRUBY_CONFIG}\" rake all"
+  sh "cd mruby && rake all"
   sh "./mruby/bin/mruby \"#{TEMPLATE_CONFIG}\""
 end
 
 desc "test"
 task :test => :mruby do
-  sh "cd mruby && MRUBY_CONFIG=\"#{MRUBY_CONFIG}\" rake all test"
+  sh "cd mruby && rake all test"
 end
 
 desc "cleanup"
