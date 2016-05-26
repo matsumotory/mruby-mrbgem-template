@@ -12,13 +12,13 @@ end
 
 desc "compile binary"
 task :compile => :mruby do
-  sh "cd mruby && MRUBY_CONFIG=\"#{MRUBY_CONFIG}\" rake all"
+  sh "cd mruby && rake all MRUBY_CONFIG=\"#{MRUBY_CONFIG}\""
   sh "./mruby/bin/mruby \"#{TEMPLATE_CONFIG}\""
 end
 
 desc "test"
 task :test => :mruby do
-  sh "cd mruby && MRUBY_CONFIG=\"#{MRUBY_CONFIG}\" rake all test"
+  sh "cd mruby && rake all test MRUBY_CONFIG=\"#{MRUBY_CONFIG}\""
 end
 
 desc "cleanup"
