@@ -11,7 +11,7 @@ assert("MrbgemTemplate#*_data") do
     :class_name     => 'Sample',
     :author         => 'MATSUMOTO Ryosuke',
   }
-  
+
   c = MrbgemTemplate.new params
   assert_equal(c.src_c_data, c.src_c_data_init)
   assert_equal(c.src_h_data, c.src_h_data_init)
@@ -34,7 +34,7 @@ assert("MrbgemTemplate#*_data=") do
     :class_name     => 'Sample',
     :author         => 'MATSUMOTO Ryosuke',
   }
-  
+
   c = MrbgemTemplate.new params
   c.src_c_data = "aaa"
   assert_equal("aaa", c.src_c_data)
@@ -56,4 +56,32 @@ assert("MrbgemTemplate#*_data=") do
   assert_equal("ci", c.travis_ci_data)
   c.travis_build_config_data = "build"
   assert_equal("build", c.travis_build_config_data)
+end
+
+assert("MrbgemTemplate#gemname_to_funcname") do
+  params = {
+    :mrbgem_name    => 'mruby-sample',
+    :license        => 'MIT',
+    :github_user    => 'matsumoto-r',
+    :mrbgem_prefix  => '..',
+    :class_name     => 'Sample',
+    :author         => 'MATSUMOTO Ryosuke',
+  }
+
+  c = MrbgemTemplate.new params
+  assert_equal("mrb_mruby_sample_gem_init", c.gemname_to_funcname('init'))
+  assert_equal("mrb_mruby_sample_gem_final", c.gemname_to_funcname('final'))
+
+  params = {
+    :mrbgem_name    => 'mruby-complex-sample',
+    :license        => 'MIT',
+    :github_user    => 'matsumoto-r',
+    :mrbgem_prefix  => '..',
+    :class_name     => 'Sample',
+    :author         => 'MATSUMOTO Ryosuke',
+  }
+
+  c = MrbgemTemplate.new params
+  assert_equal("mrb_mruby_complex_sample_gem_init", c.gemname_to_funcname('init'))
+  assert_equal("mrb_mruby_complex_sample_gem_final", c.gemname_to_funcname('final'))
 end
