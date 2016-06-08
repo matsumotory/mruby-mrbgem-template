@@ -388,7 +388,7 @@ static mrb_value mrb_#{@params[:class_name].downcase}_hi(mrb_state *mrb, mrb_val
   return mrb_str_new_cstr(mrb, "hi!!");
 }
 
-void mrb_mruby_#{@params[:class_name].downcase}_gem_init(mrb_state *mrb)
+void #{gemname_to_funcname('init')}(mrb_state *mrb)
 {
     struct RClass *#{@params[:class_name].downcase};
     #{@params[:class_name].downcase} = mrb_define_class(mrb, "#{@params[:class_name]}", mrb->object_class);
@@ -398,7 +398,7 @@ void mrb_mruby_#{@params[:class_name].downcase}_gem_init(mrb_state *mrb)
     DONE;
 }
 
-void mrb_mruby_#{@params[:class_name].downcase}_gem_final(mrb_state *mrb)
+void #{gemname_to_funcname('final')}(mrb_state *mrb)
 {
 }
 
@@ -414,5 +414,10 @@ website: https://github.com/#{@params[:github_user]}/#{@params[:mrbgem_name]}
 protocol: git
 repository: https://github.com/#{@params[:github_user]}/#{@params[:mrbgem_name]}.git
 DATA
+  end
+
+  def gemname_to_funcname(suffix)
+    snaked = @params[:mrbgem_name].tr('-', '_')
+    "mrb_#{snaked}_gem_#{suffix}"
   end
 end
