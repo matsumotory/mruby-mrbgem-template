@@ -417,7 +417,7 @@ DATA
   end
 
   def gemname_to_funcname(suffix)
-    snaked = @params[:mrbgem_name].tr('-', '_')
+    snaked = @params[:mrbgem_name].gsub('-', '_')
     "mrb_#{snaked}_gem_#{suffix}"
   end
 end
