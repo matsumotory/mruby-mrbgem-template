@@ -16,6 +16,7 @@ class MrbgemTemplate
     #  :mrbgem_type    => 'class',  # not yet
     #  :class_name     => 'Hogehoge',
     #  :author         => 'mruby-hogehoge developers',
+    #  :local_builder  => true, # default to nil
 
     raise "mrbgem_name is nil" if params[:mrbgem_name].nil?
     raise "license is nil" if params[:license].nil?
@@ -37,6 +38,7 @@ class MrbgemTemplate
     @mrblib_data = mrblib_data_init
     @test_data = test_data_init
     @rake_data = rake_data_init
+    @local_builder_data = builder_data_init if @params[:local_builder]
     @travis_ci_data = travis_ci_data_init
     @travis_build_config_data = travis_build_config_data_init
     @readme_data = readme_data_init
@@ -51,6 +53,7 @@ class MrbgemTemplate
     create_mrblib
     create_test
     create_rake
+    create_local_builder if @params[:local_builder]
     create_mgem
     create_ci
     create_readme
@@ -127,6 +130,14 @@ class MrbgemTemplate
     puts "create file: #{@test_dir}/mrb_#{@params[:class_name].downcase}.rb"
   end
 
+  def create_local_builder
+    create_root
+    File.open("#{@root_dir}/Rakefile", "w") do |file|
+      file.puts @local_builder_data
+    end
+    puts "create file: #{@root_dir}/Rakefile"
+  end
+
   def create_ci
     create_root
     File.open("#{@root_dir}/.travis.yml", "w") do |file|
@@ -189,6 +200,40 @@ MRuby::Gem::Specification.new('#{@params[:mrbgem_name]}') do |spec|
   spec.license = '#{@params[:license]}'
   spec.authors = '#{@params[:author]}'
 end
+DATA
+  end
+
+  def builder_data_init
+    <<DATA
+MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".travis_build_config.rb")
+MRUBY_VERSION=ENV["MRUBY_VERSION"] || "1.2.0"
+
+file :mruby do
+  cmd =  "git clone --depth=1 git://github.com/mruby/mruby.git"
+  if MRUBY_VERSION != 'master'
+    cmd << " && cd mruby"
+    cmd << " && git fetch --tags && git checkout $(git rev-parse \#{MRUBY_VERSION})"
+  end
+  sh cmd
+end
+
+desc "compile binary"
+task :compile => :mruby do
+  sh "cd mruby && MRUBY_CONFIG=\#{MRUBY_CONFIG} rake all"
+end
+
+desc "test"
+task :test => :mruby do
+  sh "cd mruby && MRUBY_CONFIG=\#{MRUBY_CONFIG} rake all test"
+end
+
+desc "cleanup"
+task :clean do
+  exit 0 unless File.directory?('mruby')
+  sh "cd mruby && rake deep_clean"
+end
+
+task :default => :compile
 DATA
   end
 
