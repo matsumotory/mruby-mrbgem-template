@@ -27,6 +27,7 @@ class MrbgemTemplate
     @params[:mrbgem_prefix] = "." if @params[:mrbgem_prefix].nil?
     @params[:author] = "#{@params[:mrbgem_name]} developers" if @params[:author].nil?
     @params[:class_name] = @params[:mrbgem_name].split('-')[1].capitalize if @params[:class_name].nil?
+    @params[:ci] = :default if @params[:ci].nil?
 
     raise "not found prefix directory: #{@params[:mrbgem_prefix]}" if ! Dir.exist? @params[:mrbgem_prefix]
     @root_dir   = @params[:mrbgem_prefix] + "/" + @params[:mrbgem_name]
