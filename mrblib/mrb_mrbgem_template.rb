@@ -136,6 +136,10 @@ class MrbgemTemplate
       file.puts @local_builder_data
     end
     puts "create file: #{@root_dir}/Rakefile"
+    File.open("#{@root_dir}/.gitignore", "a+") do |file|
+      file.puts "mruby/"
+    end
+    puts "add gitignore entry: #{@root_dir}/.gitignore"
   end
 
   def create_ci
