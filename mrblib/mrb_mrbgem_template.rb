@@ -17,6 +17,7 @@ class MrbgemTemplate
     #  :class_name     => 'Hogehoge',
     #  :author         => 'mruby-hogehoge developers',
     #  :local_builder  => true, # default to nil
+    #  :ci             => false, # default to :default, :matrix also available
 
     raise "mrbgem_name is nil" if params[:mrbgem_name].nil?
     raise "license is nil" if params[:license].nil?
@@ -39,8 +40,10 @@ class MrbgemTemplate
     @test_data = test_data_init
     @rake_data = rake_data_init
     @local_builder_data = builder_data_init if @params[:local_builder]
-    @travis_ci_data = travis_ci_data_init
-    @travis_build_config_data = travis_build_config_data_init
+    if @params[:ci]
+      @travis_ci_data = travis_ci_data_init(@params[:ci])
+      @travis_build_config_data = travis_build_config_data_init
+    end
     @readme_data = readme_data_init
     @license_data = license_data_init
     @mgem_data = mgem_data_init
@@ -263,7 +266,31 @@ end
 DATA
   end
 
-  def travis_ci_data_init
+  def travis_ci_data_init(ci_type)
+    if ci_type == :matrix
+    <<DATA
+language: c
+compiler:
+  - gcc
+  - clang
+env:
+  - MRUBY_VERSION=1.2.0
+  - MRUBY_VERSION=master
+matrix:
+  allow_failures:
+    - env: MRUBY_VERSION=master
+branches:
+  only:
+    - master
+
+before_install:
+  - sudo apt-get -qq update
+install:
+  - sudo apt-get -qq install rake bison git gperf
+script:
+  - rake test
+DATA
+    else
     <<DATA
 language: c
 compiler:
@@ -281,6 +308,7 @@ before_script:
 script:
   - make all test
 DATA
+    end
   end
 
   def travis_build_config_data_init
