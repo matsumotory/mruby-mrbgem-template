@@ -16,6 +16,8 @@ class MrbgemTemplate
     #  :mrbgem_type    => 'class',  # not yet
     #  :class_name     => 'Hogehoge',
     #  :author         => 'mruby-hogehoge developers',
+    #  :local_builder  => true, # default to nil
+    #  :ci             => false, # default to :default, :matrix also available
 
     raise "mrbgem_name is nil" if params[:mrbgem_name].nil?
     raise "license is nil" if params[:license].nil?
@@ -25,6 +27,7 @@ class MrbgemTemplate
     @params[:mrbgem_prefix] = "." if @params[:mrbgem_prefix].nil?
     @params[:author] = "#{@params[:mrbgem_name]} developers" if @params[:author].nil?
     @params[:class_name] = @params[:mrbgem_name].split('-')[1].capitalize if @params[:class_name].nil?
+    @params[:ci] = :default if @params[:ci].nil?
 
     raise "not found prefix directory: #{@params[:mrbgem_prefix]}" if ! Dir.exist? @params[:mrbgem_prefix]
     @root_dir   = @params[:mrbgem_prefix] + "/" + @params[:mrbgem_name]
@@ -37,8 +40,11 @@ class MrbgemTemplate
     @mrblib_data = mrblib_data_init
     @test_data = test_data_init
     @rake_data = rake_data_init
-    @travis_ci_data = travis_ci_data_init
-    @travis_build_config_data = travis_build_config_data_init
+    @local_builder_data = builder_data_init if @params[:local_builder]
+    if @params[:ci]
+      @travis_ci_data = travis_ci_data_init(@params[:ci])
+      @travis_build_config_data = travis_build_config_data_init
+    end
     @readme_data = readme_data_init
     @license_data = license_data_init
     @mgem_data = mgem_data_init
@@ -51,6 +57,7 @@ class MrbgemTemplate
     create_mrblib
     create_test
     create_rake
+    create_local_builder if @params[:local_builder]
     create_mgem
     create_ci
     create_readme
@@ -127,6 +134,18 @@ class MrbgemTemplate
     puts "create file: #{@test_dir}/mrb_#{@params[:class_name].downcase}.rb"
   end
 
+  def create_local_builder
+    create_root
+    File.open("#{@root_dir}/Rakefile", "w") do |file|
+      file.puts @local_builder_data
+    end
+    puts "create file: #{@root_dir}/Rakefile"
+    File.open("#{@root_dir}/.gitignore", "a+") do |file|
+      file.puts "mruby/"
+    end
+    puts "add gitignore entry: #{@root_dir}/.gitignore"
+  end
+
   def create_ci
     create_root
     File.open("#{@root_dir}/.travis.yml", "w") do |file|
@@ -192,6 +211,40 @@ end
 DATA
   end
 
+  def builder_data_init
+    <<DATA
+MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".travis_build_config.rb")
+MRUBY_VERSION=ENV["MRUBY_VERSION"] || "1.2.0"
+
+file :mruby do
+  cmd =  "git clone --depth=1 git://github.com/mruby/mruby.git"
+  if MRUBY_VERSION != 'master'
+    cmd << " && cd mruby"
+    cmd << " && git fetch --tags && git checkout $(git rev-parse \#{MRUBY_VERSION})"
+  end
+  sh cmd
+end
+
+desc "compile binary"
+task :compile => :mruby do
+  sh "cd mruby && MRUBY_CONFIG=\#{MRUBY_CONFIG} rake all"
+end
+
+desc "test"
+task :test => :mruby do
+  sh "cd mruby && MRUBY_CONFIG=\#{MRUBY_CONFIG} rake all test"
+end
+
+desc "cleanup"
+task :clean do
+  exit 0 unless File.directory?('mruby')
+  sh "cd mruby && rake deep_clean"
+end
+
+task :default => :compile
+DATA
+  end
+
   def test_data_init
     <<DATA
 ##
@@ -214,7 +267,31 @@ end
 DATA
   end
 
-  def travis_ci_data_init
+  def travis_ci_data_init(ci_type)
+    if ci_type == :matrix
+    <<DATA
+language: c
+compiler:
+  - gcc
+  - clang
+env:
+  - MRUBY_VERSION=1.2.0
+  - MRUBY_VERSION=master
+matrix:
+  allow_failures:
+    - env: MRUBY_VERSION=master
+branches:
+  only:
+    - master
+
+before_install:
+  - sudo apt-get -qq update
+install:
+  - sudo apt-get -qq install rake bison git gperf
+script:
+  - rake test
+DATA
+    else
     <<DATA
 language: c
 compiler:
@@ -232,6 +309,7 @@ before_script:
 script:
   - make all test
 DATA
+    end
   end
 
   def travis_build_config_data_init
