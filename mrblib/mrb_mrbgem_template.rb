@@ -468,12 +468,12 @@ static mrb_value mrb_#{@params[:class_name].downcase}_hi(mrb_state *mrb, mrb_val
 
 void #{gemname_to_funcname('init')}(mrb_state *mrb)
 {
-    struct RClass *#{@params[:class_name].downcase};
-    #{@params[:class_name].downcase} = mrb_define_class(mrb, "#{@params[:class_name]}", mrb->object_class);
-    mrb_define_method(mrb, #{@params[:class_name].downcase}, "initialize", mrb_#{@params[:class_name].downcase}_init, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, #{@params[:class_name].downcase}, "hello", mrb_#{@params[:class_name].downcase}_hello, MRB_ARGS_NONE());
-    mrb_define_class_method(mrb, #{@params[:class_name].downcase}, "hi", mrb_#{@params[:class_name].downcase}_hi, MRB_ARGS_NONE());
-    DONE;
+  struct RClass *#{@params[:class_name].downcase};
+  #{@params[:class_name].downcase} = mrb_define_class(mrb, "#{@params[:class_name]}", mrb->object_class);
+  mrb_define_method(mrb, #{@params[:class_name].downcase}, "initialize", mrb_#{@params[:class_name].downcase}_init, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, #{@params[:class_name].downcase}, "hello", mrb_#{@params[:class_name].downcase}_hello, MRB_ARGS_NONE());
+  mrb_define_class_method(mrb, #{@params[:class_name].downcase}, "hi", mrb_#{@params[:class_name].downcase}_hi, MRB_ARGS_NONE());
+  DONE;
 }
 
 void #{gemname_to_funcname('final')}(mrb_state *mrb)
