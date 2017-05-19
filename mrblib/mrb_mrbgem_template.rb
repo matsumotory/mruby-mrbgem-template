@@ -16,7 +16,6 @@ class MrbgemTemplate
     #  :mrbgem_type    => 'class',  # not yet
     #  :class_name     => 'Hogehoge',
     #  :author         => 'mruby-hogehoge developers',
-    #  :local_builder  => true, # default to nil
     #  :ci             => false, # default to :default, :matrix also available
 
     raise "mrbgem_name is nil" if params[:mrbgem_name].nil?
@@ -40,7 +39,7 @@ class MrbgemTemplate
     @mrblib_data = mrblib_data_init
     @test_data = test_data_init
     @rake_data = rake_data_init
-    @local_builder_data = builder_data_init if @params[:local_builder]
+    @local_builder_data = builder_data_init
     if @params[:ci]
       @travis_ci_data = travis_ci_data_init(@params[:ci])
       @travis_build_config_data = travis_build_config_data_init
@@ -57,7 +56,7 @@ class MrbgemTemplate
     create_mrblib
     create_test
     create_rake
-    create_local_builder if @params[:local_builder]
+    create_local_builder
     create_mgem
     create_ci
     create_readme
