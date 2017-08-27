@@ -316,7 +316,7 @@ DATA
 MRuby::Build.new do |conf|
   toolchain :gcc
   conf.gembox 'default'
-  conf.gem '../#{@params[:mrbgem_name]}'
+  conf.gem File.expand_path(File.dirname(__FILE__))
   conf.enable_test
 end
 DATA
