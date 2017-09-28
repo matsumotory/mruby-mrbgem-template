@@ -216,22 +216,24 @@ MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".travis_build_config.rb")
 MRUBY_VERSION=ENV["MRUBY_VERSION"] || "1.3.0"
 
 file :mruby do
-  cmd =  "git clone --depth=1 git://github.com/mruby/mruby.git"
+  sh "git clone --depth=1 git://github.com/mruby/mruby.git"
   if MRUBY_VERSION != 'master'
-    cmd << " && cd mruby"
-    cmd << " && git fetch --tags && git checkout $(git rev-parse \#{MRUBY_VERSION})"
+    Dir.chdir 'mruby' do
+      sh "git fetch --tags"
+      rev = %x{git rev-parse \#{MRUBY_VERSION}}
+      sh "git checkout \#{rev}"
+    end
   end
-  sh cmd
 end
 
 desc "compile binary"
 task :compile => :mruby do
-  sh "cd mruby && MRUBY_CONFIG=\#{MRUBY_CONFIG} rake all"
+  sh "cd mruby && rake all MRUBY_CONFIG=\#{MRUBY_CONFIG}"
 end
 
 desc "test"
 task :test => :mruby do
-  sh "cd mruby && MRUBY_CONFIG=\#{MRUBY_CONFIG} rake all test"
+  sh "cd mruby && rake all test MRUBY_CONFIG=\#{MRUBY_CONFIG}"
 end
 
 desc "cleanup"
