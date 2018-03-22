@@ -277,6 +277,8 @@ compiler:
   - clang
 env:
   - MRUBY_VERSION=1.2.0
+  - MRUBY_VERSION=1.3.0
+  - MRUBY_VERSION=1.4.0
   - MRUBY_VERSION=master
 matrix:
   allow_failures:
