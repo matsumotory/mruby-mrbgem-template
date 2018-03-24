@@ -268,7 +268,7 @@ end
 DATA
   end
 
-  def travis_ci_data_init(ci_type)
+  def travis_ci_data_init(ci_type = nil)
     if ci_type == :matrix
     <<DATA
 language: c
