@@ -4,4 +4,5 @@ MRuby::Gem::Specification.new('mruby-mrbgem-template') do |spec|
   spec.version = '0.0.1'
   spec.add_dependency('mruby-io')
   spec.add_dependency('mruby-dir')
+  spec.add_dependency('mruby-time')
 end
