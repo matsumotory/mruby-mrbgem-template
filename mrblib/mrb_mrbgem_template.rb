@@ -500,6 +500,7 @@ author: #{@params[:author]}
 website: https://github.com/#{@params[:github_user]}/#{@params[:mrbgem_name]}
 protocol: git
 repository: https://github.com/#{@params[:github_user]}/#{@params[:mrbgem_name]}.git
+license: #{@params[:license]}
 DATA
   end
 
