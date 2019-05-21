@@ -432,7 +432,7 @@ DATA
 
 typedef struct {
   char *str;
-  int len;
+  mrb_int len;
 } mrb_#{@params[:class_name].downcase}_data;
 
 static const struct mrb_data_type mrb_#{@params[:class_name].downcase}_data_type = {
@@ -443,7 +443,7 @@ static mrb_value mrb_#{@params[:class_name].downcase}_init(mrb_state *mrb, mrb_v
 {
   mrb_#{@params[:class_name].downcase}_data *data;
   char *str;
-  int len;
+  mrb_int len;
 
   data = (mrb_#{@params[:class_name].downcase}_data *)DATA_PTR(self);
   if (data) {
