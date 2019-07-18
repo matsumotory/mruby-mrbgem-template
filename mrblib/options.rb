@@ -9,9 +9,15 @@ class MrbgemTemplate
     }
     parser = OptionParser.new do |opts|
       opts.banner = "Usage: mrbgem-template [options] mrbgem_name"
+      opts.version = MrbgemTemplate::VERSION
 
       opts.on("-h", "--help", "Show usage") do |v|
         puts opts.help
+        exit 1
+      end
+
+      opts.on("-v", "--version", "Show version") do |v|
+        puts "mrbgem-template version #{opts.version}"
         exit 1
       end
 
@@ -55,8 +61,6 @@ class MrbgemTemplate
     end
 
     parser.parse!(argv)
-
-    p options
 
     options
   end
