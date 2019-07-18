@@ -17,7 +17,8 @@ int main(int argc, char *argv[])
   int i;
   int return_value;
 
-  for (i = 0; i < argc; i++) {
+  // Not to include argv[0]...
+  for (i = 1; i < argc; i++) {
     mrb_ary_push(mrb, ARGV, mrb_str_new_cstr(mrb, argv[i]));
   }
   mrb_define_global_const(mrb, "ARGV", ARGV);
