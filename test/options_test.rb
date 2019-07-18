@@ -20,3 +20,21 @@ assert("MrbgemTemplate.parse_options!") do
   assert_equal(params[:ci], false)
   assert_equal(params[:mrbgem_name], "mruby-buz")
 end
+
+assert("MrbgemTemplate.parse_options! default values") do
+  argv = [
+    "-u", "dummy-user",
+    "-a", "Dummy authors", # todo: mock git command response?
+    "mruby-qaaz_qez"
+  ]
+  params = MrbgemTemplate.parse_options!(argv)
+
+  assert_equal(params[:license], "MIT")
+  assert_equal(params[:github_user], "dummy-user")
+  assert_equal(params[:mrbgem_prefix], ".")
+  assert_equal(params[:class_name], "QaazQez")
+  assert_equal(params[:author], "Dummy authors")
+  assert_equal(params[:local_builder], true)
+  assert_equal(params[:ci], true)
+  assert_equal(params[:mrbgem_name], "mruby-qaaz_qez")
+end
