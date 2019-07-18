@@ -213,7 +213,7 @@ DATA
   def builder_data_init
     <<DATA
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".travis_build_config.rb")
-MRUBY_VERSION=ENV["MRUBY_VERSION"] || "2.0.0"
+MRUBY_VERSION=ENV["MRUBY_VERSION"] || "2.0.1"
 
 file :mruby do
   sh "git clone --depth=1 git://github.com/mruby/mruby.git"
@@ -276,7 +276,7 @@ compiler:
   - gcc
   - clang
 env:
-  - MRUBY_VERSION=2.0.0
+  - MRUBY_VERSION=2.0.1
   - MRUBY_VERSION=master
 matrix:
   allow_failures:
