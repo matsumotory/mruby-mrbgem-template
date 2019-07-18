@@ -27,6 +27,7 @@ class MrbgemTemplate
     @params[:author] = "#{@params[:mrbgem_name]} developers" if @params[:author].nil?
     @params[:class_name] = @params[:mrbgem_name].split('-')[1].capitalize if @params[:class_name].nil?
     @params[:ci] = :default if @params[:ci].nil?
+    @params[:mruby_version] ||= "2.0.1"
 
     raise "not found prefix directory: #{@params[:mrbgem_prefix]}" if ! Dir.exist? @params[:mrbgem_prefix]
     @root_dir   = @params[:mrbgem_prefix] + "/" + @params[:mrbgem_name]
@@ -213,7 +214,7 @@ DATA
   def builder_data_init
     <<DATA
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".travis_build_config.rb")
-MRUBY_VERSION=ENV["MRUBY_VERSION"] || "2.0.1"
+MRUBY_VERSION=ENV["MRUBY_VERSION"] || "#{@params[:mruby_version]}"
 
 file :mruby do
   sh "git clone --depth=1 git://github.com/mruby/mruby.git"
@@ -276,7 +277,7 @@ compiler:
   - gcc
   - clang
 env:
-  - MRUBY_VERSION=2.0.1
+  - MRUBY_VERSION=#{@params[:mruby_version]}
   - MRUBY_VERSION=master
 matrix:
   allow_failures:

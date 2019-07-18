@@ -6,6 +6,7 @@ class MrbgemTemplate
       github_user: detect_github_user,
       author: detect_author,
       local_builder: true,
+      mruby_version: nil,
       ci: true,
     }
     parser = OptionParser.new do |opts|
@@ -40,6 +41,10 @@ class MrbgemTemplate
 
       opts.on("-a", "--author [AUTHOR]", "Set the author of this mgem") do |v|
         options[:author] = v
+      end
+
+      opts.on("-m", "--mruby-version [VERSION]", "Set target mruby version") do |v|
+        options[:mruby_version] = v
       end
 
       opts.on("-b", "--[no-]local-builder", "Enable or disable local builder") do |v|
