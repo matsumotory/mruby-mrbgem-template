@@ -4,6 +4,7 @@ class MrbgemTemplate
       license: "MIT",
       mrbgem_prefix: ".",
       github_user: detect_github_user,
+      author: detect_author,
       local_builder: true,
       ci: true,
     }
@@ -92,6 +93,11 @@ class MrbgemTemplate
     end if detected.empty?
     detected = `whoami`.chomp if detected.empty?
 
+    detected.empty? ? nil : detected
+  end
+
+  def self.detect_author
+    detected = `git config user.name`.chomp
     detected.empty? ? nil : detected
   end
 end
