@@ -3,5 +3,6 @@ MRuby::Build.new do |conf|
   conf.gembox 'full-core'
   conf.gem './'
 
+  conf.enable_test
   conf.enable_debug if ENV['DEBUG']
 end
