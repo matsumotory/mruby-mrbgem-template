@@ -47,6 +47,10 @@ class MrbgemTemplate
         options[:mruby_version] = v
       end
 
+      opts.on("-B", "--bin-name [BIN_NAME]", "Set and generate binary tools") do |v|
+        options[:bin_name] = v
+      end
+
       opts.on("-b", "--[no-]local-builder", "Enable or disable local builder") do |v|
         options[:local_builder] = v
       end
