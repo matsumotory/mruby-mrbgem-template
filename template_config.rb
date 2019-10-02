@@ -5,6 +5,7 @@ params = {
   :mrbgem_prefix  => File.expand_path('.'),
   :class_name     => 'Example',
   :author         => 'your-name',
+  :bin_name       => 'foobar'
 }
 
 c = MrbgemTemplate.new params
