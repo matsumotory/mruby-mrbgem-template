@@ -184,8 +184,8 @@ class MrbgemTemplate
     create_root
     if cmd_name = @params[:bin_name]
       path = "#{@root_dir}/tools/#{@params[:bin_name]}/#{@params[:bin_name]}.c"
-      Dir.mkdir File.dirname(File.dirname path), 0755
-      Dir.mkdir File.dirname(path), 0755
+      Dir.mkdir File.dirname(File.dirname path), 0755 unless File.exist?(File.dirname(File.dirname path))
+      Dir.mkdir File.dirname(path), 0755              unless File.exist?(File.dirname path)
       File.open(path, "w") do |file|
         file.puts @tools_data
       end
