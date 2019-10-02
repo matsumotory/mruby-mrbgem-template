@@ -1,3 +1,3 @@
-class MrbgemTemplate
-  VERSION = '0.1.0'
+１class MrbgemTemplate
+  VERSION = '0.2.0'
 end
