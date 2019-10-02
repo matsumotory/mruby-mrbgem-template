@@ -213,17 +213,25 @@ DATA
   end
 
   def mrblib_data_init
+    main_def_if_required = @params[:bin_name] ? (<<MAIN) : ""
+
+def __main__(argv)
+  raise NotImplementedError, "Please implement Kernel#__main__ in your .rb file."
+end
+MAIN
+
     <<DATA
 class #{@params[:class_name]}
   def bye
     self.hello + " bye"
   end
 end
+#{main_def_if_required}
 DATA
   end
 
   def rake_data_init
-    bins_line = @params[:bin_name] ? "spec.bins = ['#{@params[:bin_name]}']": ""
+    bins_line = @params[:bin_name] ? "spec.bins = ['#{@params[:bin_name]}']" : ""
     <<DATA
 MRuby::Gem::Specification.new('#{@params[:mrbgem_name]}') do |spec|
   #{bins_line}
