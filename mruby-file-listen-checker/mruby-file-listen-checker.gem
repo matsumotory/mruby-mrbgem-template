@@ -1,0 +1,7 @@
+name: mruby-file-listen-checker
+description: FileListenCheck class
+author: pyama86
+website: https://github.com/pyama86/mruby-file-listen-checker
+protocol: git
+repository: https://github.com/pyama86/mruby-file-listen-checker.git
+license: MIT
