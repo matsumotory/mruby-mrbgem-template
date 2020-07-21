@@ -1,0 +1,28 @@
+name: mrbgem-template
+version: "0.3.0"
+summary: mrbgems template generator
+description: |
+  mrbgems template generator
+
+base: core18
+license: MIT
+
+confinement: strict
+
+parts:
+  mrbgem-template:
+    source: https://github.com/udzura/mruby-mrbgem-template.git
+    plugin: make
+    build-packages:
+      - libruby2.5
+      - ruby2.5
+      - ruby2.5-dev
+      - rake
+      - git
+      - gcc
+      - bison
+    artifacts:
+      - mruby/bin/mrbgem-template
+apps:
+  mrbgem-template:
+    command: mruby/bin/mrbgem-template
