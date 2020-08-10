@@ -2,6 +2,10 @@ language: c
 compiler:
   - gcc
   - clang
+env:
+  - MRUBY_VERSION="master"
+  - MRUBY_VERSION="2.1.2"
+  - MRUBY_VERSION="2.0.1"
 before_install:
     - sudo apt-get -qq update
 install:
