@@ -1,13 +1,16 @@
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "build_config.rb")
 TEMPLATE_CONFIG=File.expand_path(ENV["TEMPLATE_CONFIG"] || "template_config.rb")
-MRUBY_VERSION=ENV["MRUBY_VERSION"] || "2.1.1"
+MRUBY_VERSION=ENV["MRUBY_VERSION"] || "2.1.2"
 
 file :mruby do
-  #sh "wget -O mruby.tar.gz https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz"
-  #sh "tar -xvzf mruby.tar.gz"
-  #sh "rm mruby.tar.gz"
-  #sh "mv mruby-#{MRUBY_VERSION} mruby"
   sh "git clone --depth=1 git://github.com/mruby/mruby.git"
+  if MRUBY_VERSION != "master"
+    Dir.chdir 'mruby' do
+      sh "git fetch --tags"
+      rev = %x{git rev-parse #{MRUBY_VERSION}}
+      sh "git checkout #{rev}"
+    end
+  end
 end
 
 desc "compile binary"
