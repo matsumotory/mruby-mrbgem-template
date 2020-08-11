@@ -4,6 +4,8 @@ class MrbgemTemplate
   attr_accessor :test_data, :rake_data, :readme_data, :license_data
   attr_accessor :travis_ci_data, :travis_build_config_data, :mgem_data
 
+  DEFAULT_MRUBY_VERSION = "2.1.2"
+
   def initialize(params = {})
 
     # Required params
@@ -28,7 +30,7 @@ class MrbgemTemplate
     @params[:author] = "#{@params[:mrbgem_name]} developers" if @params[:author].nil?
     @params[:class_name] = @params[:mrbgem_name].split('-')[1].capitalize if @params[:class_name].nil?
     @params[:ci] = :default if @params[:ci].nil?
-    @params[:mruby_version] ||= "2.0.1"
+    @params[:mruby_version] ||= DEFAULT_MRUBY_VERSION
     if @params[:bin_name].is_a?(TrueClass)
       @params[:bin_name] = @params[:mrbgem_name].sub(/^mruby-(bin-)?/, "")
     end
