@@ -79,8 +79,8 @@ create dir : ../mruby-sample/test
 create file: ../mruby-sample/test/mrb_sample.rb
 create file: ../mruby-sample/mrbgem.rake
 create file: ../mruby-sample/mruby-sample.gem
-create file: ../mruby-sample/.travis.yml
-create file: ../mruby-sample/.travis_build_config.rb
+create file: ../mruby-sample/.github/workflows/ci.yml
+create file: ../mruby-sample/.github_actions_build_config.rb
 create file: ../mruby-sample/README.md
 create file: ../mruby-sample/LICENSE
 

@@ -36,10 +36,12 @@ class MrbgemTemplate
     end
 
     raise "not found prefix directory: #{@params[:mrbgem_prefix]}" if ! Dir.exist? @params[:mrbgem_prefix]
-    @root_dir   = @params[:mrbgem_prefix] + "/" + @params[:mrbgem_name]
-    @src_dir    = @root_dir + "/src"
-    @mrblib_dir = @root_dir + "/mrblib"
-    @test_dir   = @root_dir + "/test"
+    @root_dir     = @params[:mrbgem_prefix] + "/" + @params[:mrbgem_name]
+    @src_dir      = @root_dir + "/src"
+    @mrblib_dir   = @root_dir + "/mrblib"
+    @test_dir     = @root_dir + "/test"
+    @ci_dir   = @root_dir + "/.github"
+    @workflow_dir = @ci_dir + "/workflows"
 
     @src_c_data = src_c_data_init
     @src_h_data = src_h_data_init
@@ -156,7 +158,9 @@ class MrbgemTemplate
 
   def create_ci
     create_root
-    File.open("#{@root_dir}/.github/workflows/ci.yml", "w") do |file|
+    Dir.mkdir @ci_dir, 0755 unless Dir.exist? @ci_dir
+    Dir.mkdir @workflow_dir, 0755 unless Dir.exist? @workflow_dir
+    File.open("#{@workflow_dir}/ci.yml", "w") do |file|
       file.puts @github_actions_data
     end
     puts "create file: #{@root_dir}/.github/workflows/ci.yml"

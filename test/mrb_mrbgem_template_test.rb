@@ -52,8 +52,8 @@ assert("MrbgemTemplate#*_data=") do
   assert_equal("license", c.license_data)
   c.readme_data = "readme"
   assert_equal("readme", c.readme_data)
-  c.travis_ci_data = "ci"
-  assert_equal("ci", c.travis_ci_data)
+  c.github_actions_data = "ci"
+  assert_equal("ci", c.github_actions_data)
   c.github_actions_build_config_data = "build"
   assert_equal("build", c.github_actions_build_config_data)
 end

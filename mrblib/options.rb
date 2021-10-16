@@ -55,7 +55,7 @@ class MrbgemTemplate
         options[:local_builder] = v
       end
 
-      opts.on("-C", "--[no-]ci", "Enable or disable CI by travis") do |v|
+      opts.on("-C", "--[no-]ci", "Enable or disable CI by GitHub Actions") do |v|
         options[:ci] = v
       end
     end
