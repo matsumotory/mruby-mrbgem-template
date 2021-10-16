@@ -304,26 +304,27 @@ DATA
   def github_actions_data_init(ci_type = nil)
     if ci_type == :matrix
     <<DATA
-language: c
-compiler:
-  - gcc
-  - clang
-env:
-  - MRUBY_VERSION=#{@params[:mruby_version]}
-  - MRUBY_VERSION=master
-matrix:
-  allow_failures:
-    - env: MRUBY_VERSION=master
-branches:
-  only:
-    - master
-
-before_install:
-  - sudo apt-get -qq update
-install:
-  - sudo apt-get -qq install rake bison git gperf
-script:
-  - rake test
+name: build
+on:
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+    matrix:
+      mruby_version: ["master", @params[:mruby_version]]
+    env:
+        MRUBY_VERSION: 2.1.2
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get -qq install rake bison git gperf
+      - name: Test
+        run: rake test
 DATA
     else
     <<DATA
