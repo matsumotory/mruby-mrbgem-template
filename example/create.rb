@@ -53,8 +53,8 @@ c.create
 #puts c.rake_data
 #puts c.mgem_data
 #puts c.test_data
-#puts c.travis_ci_data
-#puts c.travis_build_config_data
+#puts c.github_actions_data
+#puts c.github_actions_build_config_data
 #puts c.readme_data
 #puts c.license_data
 

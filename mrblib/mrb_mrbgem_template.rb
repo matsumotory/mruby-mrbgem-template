@@ -2,7 +2,7 @@ class MrbgemTemplate
 
   attr_accessor :src_c_data, :src_h_data, :mrblib_data
   attr_accessor :test_data, :rake_data, :readme_data, :license_data
-  attr_accessor :travis_ci_data, :travis_build_config_data, :mgem_data
+  attr_accessor :github_actions_data, :github_actions_build_config_data, :mgem_data
 
   DEFAULT_MRUBY_VERSION = "2.1.2"
 
@@ -48,8 +48,8 @@ class MrbgemTemplate
     @rake_data = rake_data_init
     @local_builder_data = builder_data_init
     if @params[:ci]
-      @travis_ci_data = travis_ci_data_init(@params[:ci])
-      @travis_build_config_data = travis_build_config_data_init
+      @github_actions_data = github_actions_data_init(@params[:ci])
+      @github_actions_build_config_data = actions_build_config_data_init
     end
     @readme_data = readme_data_init
     @license_data = license_data_init
@@ -156,14 +156,14 @@ class MrbgemTemplate
 
   def create_ci
     create_root
-    File.open("#{@root_dir}/.travis.yml", "w") do |file|
-      file.puts @travis_ci_data
+    File.open("#{@root_dir}/.github/workflows/ci.yml", "w") do |file|
+      file.puts @github_actions_data
     end
-    puts "create file: #{@root_dir}/.travis.yml"
-    File.open("#{@root_dir}/.travis_build_config.rb", "w") do |file|
-      file.puts @travis_build_config_data
+    puts "create file: #{@root_dir}/.github/workflows/ci.yml"
+    File.open("#{@root_dir}/.github_actions_build_config.rb", "w") do |file|
+      file.puts @github_actions_build_config_data
     end
-    puts "create file: #{@root_dir}/.travis_build_config.rb"
+    puts "create file: #{@root_dir}/.github_actions_build_config.rb"
   end
 
   def create_readme
@@ -245,7 +245,7 @@ DATA
 
   def builder_data_init
     <<DATA
-MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".travis_build_config.rb")
+MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".actions_config.rb")
 MRUBY_VERSION=ENV["MRUBY_VERSION"] || "#{@params[:mruby_version]}"
 
 file :mruby do
@@ -301,7 +301,7 @@ end
 DATA
   end
 
-  def travis_ci_data_init(ci_type = nil)
+  def github_actions_data_init(ci_type = nil)
     if ci_type == :matrix
     <<DATA
 language: c
@@ -327,26 +327,32 @@ script:
 DATA
     else
     <<DATA
-language: c
-compiler:
-  - gcc
-  - clang
-before_install:
-    - sudo apt-get -qq update
-install:
-    - sudo apt-get -qq install rake bison git gperf
-before_script:
-  - cd ../
-  - git clone https://github.com/mruby/mruby.git
-  - cd mruby
-  - cp -fp ../#{@params[:mrbgem_name]}/.travis_build_config.rb build_config.rb
-script:
-  - make all test
+name: build
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+        MRUBY_VERSION: 2.1.2
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: | 
+          sudo apt-get -qq update
+          sudo apt-get -qq install rake bison git gperf
+      - name: Clone mruby
+        run: git clone https://github.com/mruby/mruby.git
+      - name: Copy build file
+        run: cp -fp ./.github_actions_build_config.rb ./mruby/build_config.rb
+      - name: Test
+        run: |
+          cd mruby
+          rake all test
 DATA
     end
   end
 
-  def travis_build_config_data_init
+  def actions_build_config_data_init
     <<DATA
 MRuby::Build.new do |conf|
   toolchain :gcc

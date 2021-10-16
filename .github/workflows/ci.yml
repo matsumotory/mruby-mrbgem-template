@@ -1,4 +1,4 @@
-name: Github Actions
+name: build
 on: [push, pull_request]
 jobs:
   test:
@@ -14,7 +14,7 @@ jobs:
       - name: Clone mruby
         run: git clone https://github.com/mruby/mruby.git
       - name: Copy build file
-        run: cp -fp ./.actions_build_config.rb ./mruby/build_config.rb
+        run: cp -fp ./.github_actions_build_config.rb ./mruby/build_config.rb
       - name: Test
         run: |
           cd mruby
