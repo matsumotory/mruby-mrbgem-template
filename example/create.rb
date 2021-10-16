@@ -34,7 +34,7 @@ c.create
 # Create test dir and .rb
 #c.create_test
 
-# Create .travis.yaml and .travis config
+# Create .github/workflows/ci.yml and ci.yml config
 #c.create_ci
 
 # Create README.md

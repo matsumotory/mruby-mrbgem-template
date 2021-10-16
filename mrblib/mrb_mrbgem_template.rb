@@ -203,7 +203,7 @@ class MrbgemTemplate
     puts <<DATA
 
   > create #{@params[:github_user]}/#{@params[:mrbgem_name]} repository on github.
-  > turn on Travis CI https://travis-ci.org/profile of #{@params[:github_user]}/#{@params[:mrbgem_name]} repository.
+  > turn on GitHub Actions on #{@params[:github_user]}/#{@params[:mrbgem_name]} repository.
   > edit your #{@params[:mrbgem_name]} code, then run the following command:
 
   cd #{@root_dir}
@@ -376,7 +376,7 @@ DATA
 
   def readme_data_init
     <<DATA
-# #{@params[:mrbgem_name]}   [![Build Status](https://travis-ci.org/#{@params[:github_user]}/#{@params[:mrbgem_name]}.svg?branch=master)](https://travis-ci.org/#{@params[:github_user]}/#{@params[:mrbgem_name]})
+# #{@params[:mrbgem_name]}   [![build](https://github.com/#{@params[:github_user]}/#{@params[:mrbgem_name]}/actions/workflows/ci.yml/badge.svg)](https://github.com/#{@params[:github_user]}/#{@params[:mrbgem_name]}/actions/workflows/ci.yml)
 #{@params[:class_name]} class
 ## install by mrbgems
 - add conf.gem line to `build_config.rb`
