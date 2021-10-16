@@ -21,8 +21,8 @@ assert("MrbgemTemplate#*_data") do
   assert_equal(c.test_data, c.test_data_init)
   assert_equal(c.license_data, c.license_data_init)
   assert_equal(c.readme_data, c.readme_data_init)
-  assert_equal(c.travis_ci_data, c.travis_ci_data_init)
-  assert_equal(c.travis_build_config_data, c.travis_build_config_data_init)
+  assert_equal(c.github_actions_data, c.github_actions_data_init)
+  assert_equal(c.github_actions_build_config_data, c.github_actions_build_config_data_init)
 end
 
 assert("MrbgemTemplate#*_data=") do
@@ -54,8 +54,8 @@ assert("MrbgemTemplate#*_data=") do
   assert_equal("readme", c.readme_data)
   c.travis_ci_data = "ci"
   assert_equal("ci", c.travis_ci_data)
-  c.travis_build_config_data = "build"
-  assert_equal("build", c.travis_build_config_data)
+  c.github_actions_build_config_data = "build"
+  assert_equal("build", c.github_actions_build_config_data)
 end
 
 assert("MrbgemTemplate#gemname_to_funcname") do

@@ -49,7 +49,7 @@ class MrbgemTemplate
     @local_builder_data = builder_data_init
     if @params[:ci]
       @github_actions_data = github_actions_data_init(@params[:ci])
-      @github_actions_build_config_data = actions_build_config_data_init
+      @github_actions_build_config_data = github_actions_build_config_data_init
     end
     @readme_data = readme_data_init
     @license_data = license_data_init
@@ -353,7 +353,7 @@ DATA
     end
   end
 
-  def actions_build_config_data_init
+  def github_actions_build_config_data_init
     <<DATA
 MRuby::Build.new do |conf|
   toolchain :gcc
