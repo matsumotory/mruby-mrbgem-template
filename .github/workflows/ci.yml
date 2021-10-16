@@ -3,8 +3,11 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mruby_version: ["master", "2.1.2", "2.0.1"]
     env:
-        MRUBY_VERSION: 2.1.2
+        MRUBY_VERSION: ${{ matrix.mruby_version }}
     steps:
       - uses: actions/checkout@v2
       - name: Install packages
