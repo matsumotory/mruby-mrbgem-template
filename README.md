@@ -79,13 +79,13 @@ create dir : ../mruby-sample/test
 create file: ../mruby-sample/test/mrb_sample.rb
 create file: ../mruby-sample/mrbgem.rake
 create file: ../mruby-sample/mruby-sample.gem
-create file: ../mruby-sample/.travis.yml
-create file: ../mruby-sample/.travis_build_config.rb
+create file: ../mruby-sample/.github/workflows/ci.yml
+create file: ../mruby-sample/.github_actions_build_config.rb
 create file: ../mruby-sample/README.md
 create file: ../mruby-sample/LICENSE
 
   > create matsumoto-r/mruby-sample repository on github.
-  > turn on Travis CI https://travis-ci.org/profile of matsumoto-r/mruby-sample repository.
+  > turn on GitHub Actions on matsumoto-r/mruby-sample repository.
   > edit your mruby-sample code, then run the following command:
 
   cd ../mruby-sample
@@ -134,7 +134,7 @@ c.create
 # Create test dir and .rb
 #c.create_test
 
-# Create .travis.yaml and .travis config
+# Create .github/workflows/ci.yml and ci.yml config
 #c.create_ci
 
 # Create README.md
@@ -153,8 +153,8 @@ c.create
 #puts c.rake_data
 #puts c.mgem_data
 #puts c.test_data
-#puts c.travis_ci_data
-#puts c.travis_build_config_data
+#puts c.github_actions_data
+#puts c.github_actions_build_config_data
 #puts c.readme_data
 #puts c.license_data
 

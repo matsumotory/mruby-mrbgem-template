@@ -1,0 +1,24 @@
+name: build
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mruby_version: ["master", "2.1.2", "2.0.1"]
+    env:
+        MRUBY_VERSION: ${{ matrix.mruby_version }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: | 
+          sudo apt-get -qq update
+          sudo apt-get -qq install rake bison git gperf
+      - name: Clone mruby
+        run: git clone https://github.com/mruby/mruby.git
+      - name: Copy build file
+        run: cp -fp ./.github_actions_build_config.rb ./mruby/build_config.rb
+      - name: Test
+        run: |
+          cd mruby
+          rake all test

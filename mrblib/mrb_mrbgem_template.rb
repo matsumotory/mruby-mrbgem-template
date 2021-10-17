@@ -2,7 +2,7 @@ class MrbgemTemplate
 
   attr_accessor :src_c_data, :src_h_data, :mrblib_data
   attr_accessor :test_data, :rake_data, :readme_data, :license_data
-  attr_accessor :travis_ci_data, :travis_build_config_data, :mgem_data
+  attr_accessor :github_actions_data, :github_actions_build_config_data, :mgem_data
 
   DEFAULT_MRUBY_VERSION = "2.1.2"
 
@@ -36,10 +36,12 @@ class MrbgemTemplate
     end
 
     raise "not found prefix directory: #{@params[:mrbgem_prefix]}" if ! Dir.exist? @params[:mrbgem_prefix]
-    @root_dir   = @params[:mrbgem_prefix] + "/" + @params[:mrbgem_name]
-    @src_dir    = @root_dir + "/src"
-    @mrblib_dir = @root_dir + "/mrblib"
-    @test_dir   = @root_dir + "/test"
+    @root_dir     = @params[:mrbgem_prefix] + "/" + @params[:mrbgem_name]
+    @src_dir      = @root_dir + "/src"
+    @mrblib_dir   = @root_dir + "/mrblib"
+    @test_dir     = @root_dir + "/test"
+    @ci_dir   = @root_dir + "/.github"
+    @workflow_dir = @ci_dir + "/workflows"
 
     @src_c_data = src_c_data_init
     @src_h_data = src_h_data_init
@@ -48,8 +50,8 @@ class MrbgemTemplate
     @rake_data = rake_data_init
     @local_builder_data = builder_data_init
     if @params[:ci]
-      @travis_ci_data = travis_ci_data_init(@params[:ci])
-      @travis_build_config_data = travis_build_config_data_init
+      @github_actions_data = github_actions_data_init(@params[:ci])
+      @github_actions_build_config_data = github_actions_build_config_data_init
     end
     @readme_data = readme_data_init
     @license_data = license_data_init
@@ -156,14 +158,16 @@ class MrbgemTemplate
 
   def create_ci
     create_root
-    File.open("#{@root_dir}/.travis.yml", "w") do |file|
-      file.puts @travis_ci_data
+    Dir.mkdir @ci_dir, 0755 unless Dir.exist? @ci_dir
+    Dir.mkdir @workflow_dir, 0755 unless Dir.exist? @workflow_dir
+    File.open("#{@workflow_dir}/ci.yml", "w") do |file|
+      file.puts @github_actions_data
     end
-    puts "create file: #{@root_dir}/.travis.yml"
-    File.open("#{@root_dir}/.travis_build_config.rb", "w") do |file|
-      file.puts @travis_build_config_data
+    puts "create file: #{@root_dir}/.github/workflows/ci.yml"
+    File.open("#{@root_dir}/.github_actions_build_config.rb", "w") do |file|
+      file.puts @github_actions_build_config_data
     end
-    puts "create file: #{@root_dir}/.travis_build_config.rb"
+    puts "create file: #{@root_dir}/.github_actions_build_config.rb"
   end
 
   def create_readme
@@ -199,7 +203,7 @@ class MrbgemTemplate
     puts <<DATA
 
   > create #{@params[:github_user]}/#{@params[:mrbgem_name]} repository on github.
-  > turn on Travis CI https://travis-ci.org/profile of #{@params[:github_user]}/#{@params[:mrbgem_name]} repository.
+  > turn on GitHub Actions on #{@params[:github_user]}/#{@params[:mrbgem_name]} repository.
   > edit your #{@params[:mrbgem_name]} code, then run the following command:
 
   cd #{@root_dir}
@@ -245,7 +249,7 @@ DATA
 
   def builder_data_init
     <<DATA
-MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".travis_build_config.rb")
+MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".actions_config.rb")
 MRUBY_VERSION=ENV["MRUBY_VERSION"] || "#{@params[:mruby_version]}"
 
 file :mruby do
@@ -301,52 +305,59 @@ end
 DATA
   end
 
-  def travis_ci_data_init(ci_type = nil)
+  def github_actions_data_init(ci_type = nil)
     if ci_type == :matrix
     <<DATA
-language: c
-compiler:
-  - gcc
-  - clang
-env:
-  - MRUBY_VERSION=#{@params[:mruby_version]}
-  - MRUBY_VERSION=master
-matrix:
-  allow_failures:
-    - env: MRUBY_VERSION=master
-branches:
-  only:
-    - master
-
-before_install:
-  - sudo apt-get -qq update
-install:
-  - sudo apt-get -qq install rake bison git gperf
-script:
-  - rake test
+name: build
+on:
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+    matrix:
+      mruby_version: ["master", @params[:mruby_version]]
+    env:
+        MRUBY_VERSION: 2.1.2
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get -qq install rake bison git gperf
+      - name: Test
+        run: rake test
 DATA
     else
     <<DATA
-language: c
-compiler:
-  - gcc
-  - clang
-before_install:
-    - sudo apt-get -qq update
-install:
-    - sudo apt-get -qq install rake bison git gperf
-before_script:
-  - cd ../
-  - git clone https://github.com/mruby/mruby.git
-  - cd mruby
-  - cp -fp ../#{@params[:mrbgem_name]}/.travis_build_config.rb build_config.rb
-script:
-  - make all test
+name: build
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+        MRUBY_VERSION: 2.1.2
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: | 
+          sudo apt-get -qq update
+          sudo apt-get -qq install rake bison git gperf
+      - name: Clone mruby
+        run: git clone https://github.com/mruby/mruby.git
+      - name: Copy build file
+        run: cp -fp ./.github_actions_build_config.rb ./mruby/build_config.rb
+      - name: Test
+        run: |
+          cd mruby
+          rake all test
 DATA
     end
   end
 
-  def travis_build_config_data_init
+  def github_actions_build_config_data_init
     <<DATA
 MRuby::Build.new do |conf|
   toolchain :gcc
@@ -365,7 +376,7 @@ DATA
 
   def readme_data_init
     <<DATA
-# #{@params[:mrbgem_name]}   [![Build Status](https://travis-ci.org/#{@params[:github_user]}/#{@params[:mrbgem_name]}.svg?branch=master)](https://travis-ci.org/#{@params[:github_user]}/#{@params[:mrbgem_name]})
+# #{@params[:mrbgem_name]}   [![build](https://github.com/#{@params[:github_user]}/#{@params[:mrbgem_name]}/actions/workflows/ci.yml/badge.svg)](https://github.com/#{@params[:github_user]}/#{@params[:mrbgem_name]}/actions/workflows/ci.yml)
 #{@params[:class_name]} class
 ## install by mrbgems
 - add conf.gem line to `build_config.rb`
