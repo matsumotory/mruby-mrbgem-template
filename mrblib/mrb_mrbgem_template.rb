@@ -211,7 +211,7 @@ class MrbgemTemplate
   git add .
   git commit -m "first commit"
   git remote add origin git@github.com:#{@params[:github_user]}/#{@params[:mrbgem_name]}.git
-  git push -u origin master
+  git push -u origin main
 
   > finally, pull-request #{@params[:mrbgem_name]}.gem to mgem-list https://github.com/bovi/mgem-list
 

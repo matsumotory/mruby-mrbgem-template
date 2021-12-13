@@ -93,7 +93,7 @@ create file: ../mruby-sample/LICENSE
   git add .
   git commit -m "first commit"
   git remote add origin git@github.com:matsumoto-r/mruby-sample.git
-  git push -u origin master
+  git push -u origin main
   
   > finally, pull-request mruby-sample.gem to mgem-list https://github.com/bovi/mgem-list
 
