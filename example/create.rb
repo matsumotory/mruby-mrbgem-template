@@ -43,7 +43,7 @@ c.create
 # Create LICENS
 #c.create_license
 
-# Output github infomation
+# Output github information
 #c.git_info
 
 # Get data
