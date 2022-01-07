@@ -249,7 +249,7 @@ DATA
 
   def builder_data_init
     <<DATA
-MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".actions_config.rb")
+MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".github_actions_build_config.rb")
 MRUBY_VERSION=ENV["MRUBY_VERSION"] || "#{@params[:mruby_version]}"
 
 file :mruby do
