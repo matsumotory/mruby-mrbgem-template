@@ -19,7 +19,8 @@ class MrbgemTemplate
     #  :class_name     => 'Hogehoge',
     #  :author         => 'mruby-hogehoge developers',
     #  :ci             => false, # default to :default, :matrix also available
-    #  :bin_name       => 'foocli' | true # if true,detect bin name by gem name
+    #  :bin_name       => 'foocli' | true, # if true,detect bin name by gem name
+    #  :mruby_version  => '3.1.0'
 
     raise "mrbgem_name is nil" if params[:mrbgem_name].nil?
     raise "license is nil" if params[:license].nil?
