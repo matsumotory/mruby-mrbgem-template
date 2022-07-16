@@ -320,7 +320,7 @@ jobs:
     matrix:
       mruby_version: ["master", @params[:mruby_version]]
     env:
-        MRUBY_VERSION: 2.1.2
+        MRUBY_VERSION: ${{ matrix.mruby_version }}
     steps:
       - uses: actions/checkout@v2
       - name: Install packages
@@ -338,7 +338,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-        MRUBY_VERSION: 2.1.2
+        MRUBY_VERSION: #{@params[:mruby_version]}
     steps:
       - uses: actions/checkout@v2
       - name: Install packages
