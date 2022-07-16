@@ -3,7 +3,7 @@ MrbgemTemplate class
 
 ## CLI tool
 
-```
+```sh
 # Build mrbgem-template cli
 $ git clone https://github.com/matsumoto-r/mruby-mrbgem-template.git
 $ cd mruby-mrbgem-template
