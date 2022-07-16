@@ -4,7 +4,7 @@ class MrbgemTemplate
   attr_accessor :test_data, :rake_data, :readme_data, :license_data
   attr_accessor :github_actions_data, :github_actions_build_config_data, :mgem_data
 
-  DEFAULT_MRUBY_VERSION = "2.1.2"
+  DEFAULT_MRUBY_VERSION = "3.1.0"
 
   def initialize(params = {})
 
