@@ -318,7 +318,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
     matrix:
-      mruby_version: ["master", @params[:mruby_version]]
+      mruby_version: ["master", "#{@params[:mruby_version]}"]
     env:
         MRUBY_VERSION: ${{ matrix.mruby_version }}
     steps:
