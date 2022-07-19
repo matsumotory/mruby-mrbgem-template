@@ -1,7 +1,23 @@
 # mruby-mrbgem-template 
 MrbgemTemplate class
 
-## Quick Create Template
+## CLI tool
+
+```sh
+# Build mrbgem-template cli
+$ git clone https://github.com/matsumoto-r/mruby-mrbgem-template.git
+$ cd mruby-mrbgem-template
+$ rake
+
+# Generate mrbgem using mrbgem-template
+$ ./mruby/bin/mrbgem-template -h # see usage
+$ ./mruby/bin/mrbgem-template --github-user myusername --author 'My Name' --mruby-version 3.1.0 --bin-name sample-bin mruby-sample # generate sample mrbgem
+$ cd mruby-sample
+$ rake # build binary
+$ ./mruby/bin/sample-bin # execute built binary
+```
+
+## Generate mrbgem using template_config.rb
 
 ```
 git clone https://github.com/matsumoto-r/mruby-mrbgem-template.git && cd mruby-mrbgem-template/
