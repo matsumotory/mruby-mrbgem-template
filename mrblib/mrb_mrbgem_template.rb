@@ -4,7 +4,7 @@ class MrbgemTemplate
   attr_accessor :test_data, :rake_data, :readme_data, :license_data
   attr_accessor :github_actions_data, :github_actions_build_config_data, :mgem_data
 
-  DEFAULT_MRUBY_VERSION = "2.1.2"
+  DEFAULT_MRUBY_VERSION = "3.1.0"
 
   def initialize(params = {})
 
@@ -19,7 +19,8 @@ class MrbgemTemplate
     #  :class_name     => 'Hogehoge',
     #  :author         => 'mruby-hogehoge developers',
     #  :ci             => false, # default to :default, :matrix also available
-    #  :bin_name       => 'foocli' | true # if true,detect bin name by gem name
+    #  :bin_name       => 'foocli' | true, # if true,detect bin name by gem name
+    #  :mruby_version  => '3.1.0'
 
     raise "mrbgem_name is nil" if params[:mrbgem_name].nil?
     raise "license is nil" if params[:license].nil?
@@ -253,7 +254,7 @@ MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || ".github_actions_build_conf
 MRUBY_VERSION=ENV["MRUBY_VERSION"] || "#{@params[:mruby_version]}"
 
 file :mruby do
-  sh "git clone --depth=1 git://github.com/mruby/mruby.git"
+  sh "git clone --depth=1 https://github.com/mruby/mruby.git"
   if MRUBY_VERSION != 'master'
     Dir.chdir 'mruby' do
       sh "git fetch --tags"
@@ -318,9 +319,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
     matrix:
-      mruby_version: ["master", @params[:mruby_version]]
+      mruby_version: ["master", "#{@params[:mruby_version]}"]
     env:
-        MRUBY_VERSION: 2.1.2
+        MRUBY_VERSION: ${{ matrix.mruby_version }}
     steps:
       - uses: actions/checkout@v2
       - name: Install packages
@@ -338,7 +339,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-        MRUBY_VERSION: 2.1.2
+        MRUBY_VERSION: #{@params[:mruby_version]}
     steps:
       - uses: actions/checkout@v2
       - name: Install packages

@@ -1,9 +1,9 @@
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "build_config.rb")
 TEMPLATE_CONFIG=File.expand_path(ENV["TEMPLATE_CONFIG"] || "template_config.rb")
-MRUBY_VERSION=ENV["MRUBY_VERSION"] || "2.1.2"
+MRUBY_VERSION=ENV["MRUBY_VERSION"] || "3.1.0"
 
 file :mruby do
-  sh "git clone --depth=1 git://github.com/mruby/mruby.git"
+  sh "git clone --depth=1 https://github.com/mruby/mruby.git"
   if MRUBY_VERSION != "master"
     Dir.chdir 'mruby' do
       sh "git fetch --tags"
