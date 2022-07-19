@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        mruby_version: ["master", "2.1.2", "2.0.1"]
+        mruby_version: ["master", "3.1.0", "2.1.2", "2.0.1"]
     env:
         MRUBY_VERSION: ${{ matrix.mruby_version }}
     steps:
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        mruby_version: ["master", "2.1.2", "2.0.1"]
+        mruby_version: ["master", "3.1.0", "2.1.2", "2.0.1"]
     env:
         MRUBY_VERSION: ${{ matrix.mruby_version }}
     steps:
