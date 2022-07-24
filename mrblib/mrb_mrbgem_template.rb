@@ -6,6 +6,8 @@ class MrbgemTemplate
 
   DEFAULT_MRUBY_VERSION = "3.1.0"
 
+  class IllegalParameterError < StandardError; end
+
   def initialize(params = {})
 
     # Required params
@@ -22,9 +24,9 @@ class MrbgemTemplate
     #  :bin_name       => 'foocli' | true, # if true,detect bin name by gem name
     #  :mruby_version  => '3.1.0'
 
-    raise "mrbgem_name is nil" if params[:mrbgem_name].nil?
-    raise "license is nil" if params[:license].nil?
-    raise "github_user is nil" if params[:github_user].nil?
+    raise IllegalParameterError, "mrbgem_name is required" if params[:mrbgem_name].nil?
+    raise IllegalParameterError, "license is required" if params[:license].nil?
+    raise IllegalParameterError, "github_user is required" if params[:github_user].nil?
 
     @params = params
     @params[:mrbgem_prefix] = "." if @params[:mrbgem_prefix].nil?
