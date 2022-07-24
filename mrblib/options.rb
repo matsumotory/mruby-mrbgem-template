@@ -95,13 +95,6 @@ class MrbgemTemplate
 
   def self.detect_github_user
     detected = `git config github.user`.chomp
-    begin
-      detected = `git config user.email`.match(/([a-zA-Z0-9_]+)@/)[1]
-    rescue
-      nil
-    end if detected.empty?
-    detected = `whoami`.chomp if detected.empty?
-
     detected.empty? ? nil : detected
   end
 
