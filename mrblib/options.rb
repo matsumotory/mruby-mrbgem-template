@@ -31,7 +31,7 @@ class MrbgemTemplate
         options[:github_user] = v
       end
 
-      opts.on("-p", "--mrbgem-prexif [PREFIX]", "Set prefix dir to mgem project") do |v|
+      opts.on("-p", "--mrbgem-prefix [PREFIX]", "Set prefix dir to mgem project") do |v|
         options[:mrbgem_prefix] = v
       end
 
